@@ -25,3 +25,6 @@
 [submodule "autoload/pathogen.vim"]
 	path = autoload/pathogen.vim
 	url = https://github.com/tpope/vim-pathogen.git
+[submodule "bundle/tlib"]
+	path = bundle/tlib
+	url = https://github.com/tomtom/tlib_vim.git
