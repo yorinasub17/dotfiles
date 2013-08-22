@@ -32,6 +32,9 @@ map <leader>ack <Esc>:Ack!
 " ConqueTerm bindings
 map <leader>vsb <Esc>:ConqueTermVSplit bash<CR>
 
+" TaskList bindings
+map <unique> <Leader>td <Plug>TaskList
+
 set foldmethod=indent
 set foldlevel=99
 
