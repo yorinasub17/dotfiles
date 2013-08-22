@@ -28,3 +28,6 @@
 [submodule "bundle/tlib"]
 	path = bundle/tlib
 	url = https://github.com/tomtom/tlib_vim.git
+[submodule "bundle/conqueterm"]
+	path = bundle/conqueterm
+	url = https://github.com/pthrasher/conqueterm-vim.git
