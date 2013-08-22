@@ -22,3 +22,6 @@
 [submodule "bundle/fugitive"]
 	path = bundle/fugitive
 	url = http://github.com/tpope/vim-fugitive.git
+[submodule "autoload/pathogen.vim"]
+	path = autoload/pathogen.vim
+	url = https://github.com/tpope/vim-pathogen.git
