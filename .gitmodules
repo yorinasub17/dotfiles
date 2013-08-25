@@ -31,3 +31,6 @@
 [submodule "bundle/conqueterm"]
 	path = bundle/conqueterm
 	url = https://github.com/pthrasher/conqueterm-vim.git
+[submodule "bundle/golang"]
+	path = bundle/golang
+	url = https://github.com/jnwhiteh/vim-golang.git
