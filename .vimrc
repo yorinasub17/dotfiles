@@ -6,6 +6,8 @@ filetype on
 filetype plugin indent on
 set rnu
 set hlsearch
+set background=dark
+colorscheme solarized
 
 
 au FileType python set omnifunc=pythoncomplete#Complete
