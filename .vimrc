@@ -64,6 +64,8 @@ EOF
 " Templating rules
 autocmd BufNewFile test_*.py TSkeletonSetup django_test.py
 autocmd BufNewFile */management/commands/*.py TSkeletonSetup django_manage.py
+autocmd BufNewFile */templates/*/*.html TSkeletonSetup django_template.html
+autocmd BufNewFile */static/*/*_views.js TSkeletonSetup backbone_views.js
 
 " Update highlighter so that we can still see text even with bad syntax
 highlight clear SpellBad
@@ -73,4 +75,4 @@ highlight SpellCap term=underline cterm=underline
 highlight clear SpellRare
 highlight SpellRare term=underline cterm=underline
 highlight clear SpellLocal
-highlight SpellLocal term=underline cterm=underline   
+highlight SpellLocal term=underline cterm=underline
