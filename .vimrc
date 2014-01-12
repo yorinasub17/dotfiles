@@ -37,6 +37,10 @@ map <leader>vsb <Esc>:ConqueTermVSplit bash<CR>
 " TaskList bindings
 map <unique> <Leader>td <Plug>TaskList
 
+" TagBar bindings
+let g:tagbar_usearrows = 1
+nnoremap <leader>l :TagbarToggle<CR>
+
 set foldmethod=indent
 set foldlevel=99
 
