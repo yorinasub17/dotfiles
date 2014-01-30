@@ -5,3 +5,7 @@ Vim packages and vimrc config
 
 # To install
 Clone to ~/.vim and run init.sh
+
+# Dependencies
+- Ruby
+- ctags
