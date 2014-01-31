@@ -10,7 +10,7 @@ set background=dark
 set t_Co=16
 colorscheme solarized
 
-au FileType python :TagbarToggle<CR>
+au FileType python :TagbarOpen
 au FileType python set omnifunc=pythoncomplete#Complete
 let g:SuperTabDefaultCompletionType = "context"
 
@@ -40,6 +40,7 @@ map <unique> <Leader>td <Plug>TaskList
 
 " TagBar bindings
 let g:tagbar_usearrows = 1
+let g:tagbar_autoclose = 0
 nnoremap <leader>l :TagbarToggle<CR>
 
 set foldmethod=indent
