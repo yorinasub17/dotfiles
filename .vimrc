@@ -11,6 +11,8 @@ set t_Co=16
 colorscheme solarized
 
 au FileType python :TagbarOpen
+au FileType python set tabstop=4
+au FileType python set shiftwidth=4
 au FileType python set omnifunc=pythoncomplete#Complete
 let g:SuperTabDefaultCompletionType = "context"
 
@@ -47,8 +49,8 @@ set foldmethod=indent
 set foldlevel=99
 
 set smartindent
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set expandtab
 
 set bs=2 "set backspace to be able to delete previous characters
