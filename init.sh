@@ -7,8 +7,3 @@ git submodule foreach git submodule update
 
 # Copy vimrc
 cp .vimrc ~/.vimrc
-
-# Build command t
-cd bundle/command-t/ruby/command-t
-ruby extconf.rb
-make
