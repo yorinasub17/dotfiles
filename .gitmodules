@@ -52,3 +52,6 @@
 [submodule "bundle/syntastic"]
 	path = bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
+[submodule "bundle/vim-multiuser"]
+	path = bundle/vim-multiuser
+	url = https://github.com/emgram769/vim-multiuser
