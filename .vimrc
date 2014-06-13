@@ -23,12 +23,6 @@ map <leader>gga :Gwrite<CR>
 map <leader>ggb :Gblame<CR>
 map <leader>ggd :Gdiff<CR>
 
-" Ropevim bindings
-map <leader>j :RopeGotoDefinition<CR>
-map <leader>r :RopeRename<CR>
-let ropevim_open_files_in_tabs=1
-let ropevim_goto_def_newwin=1
-
 " Ack bindings
 map <leader>ack <Esc>:Ack!
 

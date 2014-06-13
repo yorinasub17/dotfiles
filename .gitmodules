@@ -1,6 +1,3 @@
-[submodule "pyflakes-pathogen"]
-	path = pyflakes-pathogen
-	url = https://github.com/mitechie/pyflakes-pathogen.git
 [submodule "bundle/ack"]
 	path = bundle/ack
 	url = https://github.com/mileszs/ack.vim.git
@@ -37,9 +34,6 @@
 [submodule "bundle/vim-colors-solarized"]
 	path = bundle/vim-colors-solarized
 	url = https://github.com/altercation/vim-colors-solarized.git
-[submodule "bundle/pyflakes-vim"]
-	path = bundle/pyflakes-vim
-	url = https://github.com/kevinw/pyflakes-vim.git
 [submodule "bundle/vim-opencl"]
 	path = bundle/vim-opencl
 	url = git://github.com/petRUShka/vim-opencl.git
@@ -55,3 +49,6 @@
 [submodule "bundle/javacomplete"]
 	path = bundle/javacomplete
 	url = https://github.com/vim-scripts/javacomplete.git
+[submodule "bundle/syntastic"]
+	path = bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git
