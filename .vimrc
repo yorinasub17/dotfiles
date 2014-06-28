@@ -10,11 +10,8 @@ set background=dark
 set t_Co=16
 colorscheme solarized
 
-au FileType python :TagbarOpen
 au FileType python set tabstop=4
 au FileType python set shiftwidth=4
-au FileType python set omnifunc=pythoncomplete#Complete
-let g:SuperTabDefaultCompletionType = "context"
 
 " Fugitive bindings
 map <leader>ggs :Gstatus<CR>
@@ -26,7 +23,10 @@ map <leader>ggd :Gdiff<CR>
 " Ack bindings
 map <leader>ack <Esc>:Ack!
 
-" Pyflakes bindings
+" Syntastic bindings
+let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': [],'passive_filetypes': [] }
+let g:syntastic_enable_highlighting = 1
+let g:syntastic_python_checkers = ['pyflakes']
 
 " ConqueTerm bindings
 map <leader>vsb <Esc>:ConqueTermVSplit bash<CR>
@@ -38,6 +38,9 @@ map <unique> <Leader>td <Plug>TaskList
 let g:tagbar_usearrows = 1
 let g:tagbar_autoclose = 0
 nnoremap <leader>l :TagbarToggle<CR>
+
+" CtrlP
+map <leader>p <Esc>:CtrlP<CR>
 
 set foldmethod=indent
 set foldlevel=99
@@ -68,13 +71,3 @@ autocmd BufNewFile test_*.py TSkeletonSetup django_test.py
 autocmd BufNewFile */management/commands/*.py TSkeletonSetup django_manage.py
 autocmd BufNewFile */templates/*/*.html TSkeletonSetup django_template.html
 autocmd BufNewFile */static/*/*_views.js TSkeletonSetup backbone_views.js
-
-" Update highlighter so that we can still see text even with bad syntax
-highlight clear SpellBad
-highlight SpellBad term=standout ctermfg=1 term=underline cterm=underline
-highlight clear SpellCap
-highlight SpellCap term=underline cterm=underline
-highlight clear SpellRare
-highlight SpellRare term=underline cterm=underline
-highlight clear SpellLocal
-highlight SpellLocal term=underline cterm=underline
