@@ -20,8 +20,8 @@ Plugin 'majutsushi/tagbar'                " Class lister
 Plugin 'pthrasher/conqueterm-vim'         " Vim Buffer Terminal
 
 " Language support
-Plugin 'rust-lang/rust.vim'
-Plugin 'phildawes/racer'
+"Plugin 'rust-lang/rust.vim'
+"Plugin 'phildawes/racer'
 
 " Load Plugins
 call vundle#end()
@@ -51,10 +51,10 @@ if executable('ag')
     let g:ackprg = 'ag'
 endif
 
-" Racer
-set hidden
-let g:racer_cmd = "/home/yoriy/Packages/racer/target/release/racer"
-let $RUST_SRC_PATH="/home/yoriy/Packages/rustc-nightly/src"
+"" Racer
+"set hidden
+"let g:racer_cmd = "/home/yoriy/Packages/racer/target/release/racer"
+"let $RUST_SRC_PATH="/home/yoriy/Packages/rustc-nightly/src"
 
 " Add the virtualenv's site-packages to vim path
 py << EOF
