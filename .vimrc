@@ -50,6 +50,7 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 set nofoldenable
+set bs=2
 
 " Ack
 if executable('ag')
@@ -79,9 +80,16 @@ set wildignore+=*.pyc
 set wildignore+=*_build/*
 set wildignore+=*/coverage/*
 set wildignore+=*/migrations/*
+set wildignore+=*/bower_components/*
+set wildignore+=*/node_modules/*
 
 " SuperTab
 let g:SuperTabDefaultCompletionType = "context"
+
+" Syntastic bindings
+let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': [], 'passive_filetypes': [] }
+let g:syntastic_enable_highlighting = 1
+let g:syntastic_python_checkers = ['pyflakes']
 
 " Aliases
 nnoremap <leader>n <Esc>:NERDTree<CR>
@@ -91,3 +99,6 @@ nnoremap <leader>s <Esc>:Ack<space>
 nnoremap <leader>tv <Esc>:ConqueTermVSplit bash -l<CR>
 nnoremap <leader>tt <Esc>:ConqueTermTab bash -l<CR>
 nnoremap <leader>ts <Esc>:ConqueTermSplit bash -l<CR>
+
+" Allow project safe vim files
+set exrc
