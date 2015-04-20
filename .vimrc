@@ -18,10 +18,15 @@ Plugin 'scrooloose/nerdtree'              " Package navigator
 Plugin 'kien/ctrlp.vim'                   " Fuzzy search
 Plugin 'majutsushi/tagbar'                " Class lister
 Plugin 'pthrasher/conqueterm-vim'         " Vim Buffer Terminal
+Plugin 'bling/vim-airline'                " Super status line
+Plugin 'ervandew/supertab'                " Tab for autocomplete trigger
 
 " Language support
+" Rust
 "Plugin 'rust-lang/rust.vim'
 "Plugin 'phildawes/racer'
+" Python
+Plugin 'davidhalter/jedi-vim'
 
 " Load Plugins
 call vundle#end()
@@ -38,13 +43,13 @@ set hlsearch
 set background=dark
 set t_Co=16
 colorscheme solarized
-set statusline=%F%m%r%h%w\ [TYPE=%Y\ %{&ff}]\ [%l/%L\ (%p%%)]\ %{fugitive#statusline()}
 
 " Navigation/Input rules
 set smartindent
 set tabstop=4
 set shiftwidth=4
 set expandtab
+set nofoldenable
 
 " Ack
 if executable('ag')
@@ -67,6 +72,16 @@ if 'VIRTUAL_ENV' in os.environ:
     activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
     execfile(activate_this, dict(__file__=activate_this))
 EOF
+
+" CtrlP
+let g:ctrlp_max_height = 30
+set wildignore+=*.pyc
+set wildignore+=*_build/*
+set wildignore+=*/coverage/*
+set wildignore+=*/migrations/*
+
+" SuperTab
+let g:SuperTabDefaultCompletionType = "context"
 
 " Aliases
 nnoremap <leader>n <Esc>:NERDTree<CR>
