@@ -20,6 +20,8 @@ Plugin 'majutsushi/tagbar'                " Class lister
 Plugin 'pthrasher/conqueterm-vim'         " Vim Buffer Terminal
 Plugin 'bling/vim-airline'                " Super status line
 Plugin 'ervandew/supertab'                " Tab for autocomplete trigger
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
 
 " Language support
 " Rust
@@ -27,6 +29,8 @@ Plugin 'ervandew/supertab'                " Tab for autocomplete trigger
 "Plugin 'phildawes/racer'
 " Python
 Plugin 'davidhalter/jedi-vim'
+" Elixir
+Plugin 'elixir-lang/vim-elixir'
 
 " Load Plugins
 call vundle#end()
@@ -82,6 +86,13 @@ set wildignore+=*/coverage/*
 set wildignore+=*/migrations/*
 set wildignore+=*/bower_components/*
 set wildignore+=*/node_modules/*
+let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
+      \ --ignore .git
+      \ --ignore .svn
+      \ --ignore .hg
+      \ --ignore .DS_Store
+      \ --ignore "**/*.pyc"
+      \ -g ""'
 
 " SuperTab
 let g:SuperTabDefaultCompletionType = "context"
@@ -89,7 +100,11 @@ let g:SuperTabDefaultCompletionType = "context"
 " Syntastic bindings
 let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': [], 'passive_filetypes': [] }
 let g:syntastic_enable_highlighting = 1
-let g:syntastic_python_checkers = ['pyflakes']
+let g:syntastic_python_checkers = ['flake8']
+
+" Airline
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tagbar#enabled = 0
 
 " Aliases
 nnoremap <leader>n <Esc>:NERDTree<CR>
@@ -102,3 +117,18 @@ nnoremap <leader>ts <Esc>:ConqueTermSplit bash -l<CR>
 
 " Allow project safe vim files
 set exrc
+
+let g:ctrlp_lazy_update = 100
+let g:ctrlp_clear_cache_on_exit = 1
+if executable("ag")
+    set grepprg=ag\ --nogroup\ --nocolor
+    let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --ignore ''bower_components'' --ignore ''media'' --ignore ''.pyc'' --hidden -g ""'
+endif
+
+" Always start nerdtree
+let NERDTreeIgnore = ['\.pyc$']
+autocmd VimEnter * NERDTree 
+autocmd VimEnter * wincmd p
+
+" Custom syntax highlighting
+au BufRead,BufNewFile *.tac set ft=python
