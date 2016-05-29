@@ -18,10 +18,12 @@ Plugin 'scrooloose/nerdtree'              " Package navigator
 Plugin 'kien/ctrlp.vim'                   " Fuzzy search
 Plugin 'majutsushi/tagbar'                " Class lister
 Plugin 'pthrasher/conqueterm-vim'         " Vim Buffer Terminal
-Plugin 'bling/vim-airline'                " Super status line
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'ervandew/supertab'                " Tab for autocomplete trigger
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
+Plugin 'wesQ3/vim-windowswap'
 
 " Language support
 " Rust
@@ -30,7 +32,12 @@ Plugin 'plasticboy/vim-markdown'
 " Python
 Plugin 'davidhalter/jedi-vim'
 " Elixir
-Plugin 'elixir-lang/vim-elixir'
+" Plugin 'elixir-lang/vim-elixir'
+" Typescript
+" Plugin 'leafgarland/typescript-vim'
+
+" Personal
+" Plugin 'yorinasub17/vifm'
 
 " Load Plugins
 call vundle#end()
@@ -55,6 +62,8 @@ set shiftwidth=4
 set expandtab
 set nofoldenable
 set bs=2
+set cursorcolumn
+set colorcolumn=120
 
 " Ack
 if executable('ag')
@@ -114,6 +123,9 @@ nnoremap <leader>s <Esc>:Ack<space>
 nnoremap <leader>tv <Esc>:ConqueTermVSplit bash -l<CR>
 nnoremap <leader>tt <Esc>:ConqueTermTab bash -l<CR>
 nnoremap <leader>ts <Esc>:ConqueTermSplit bash -l<CR>
+nnoremap <leader>tem <Esc>:DjangoTestMethod<CR>
+nnoremap <leader>tec <Esc>:DjangoTestClass<CR>
+nnoremap <leader>tea <Esc>:DjangoTestApp<CR>
 
 " Allow project safe vim files
 set exrc
