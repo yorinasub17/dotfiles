@@ -22,6 +22,9 @@ if dein#load_state('/Users/yoriy/.cache/dein')
   call dein#add('scrooloose/nerdtree')
   call dein#add('dense-analysis/ale')
   call dein#add('Shougo/deoplete.nvim')
+  call dein#add('tpope/vim-fugitive')
+  call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
+  call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 
   " Language based plugins
   " Go
@@ -31,9 +34,6 @@ if dein#load_state('/Users/yoriy/.cache/dein')
   " markdown
   call dein#add('shime/vim-livedown')
   call dein#add('lvht/tagbar-markdown')
-
-  "call dein#add('Shougo/neosnippet.vim')
-  "call dein#add('Shougo/neosnippet-snippets')
 
   " Required:
   call dein#end()
@@ -91,6 +91,16 @@ let g:python_host_prog = $HOME.'/.pyenv/versions/neovim2/bin/python'
 let g:python3_host_prog = $HOME.'/.pyenv/versions/neovim3/bin/python'
 
 "----------------------------------------------
+" fzf
+"----------------------------------------------
+
+let $FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+nnoremap <silent> <C-p> :Rg<cr>
+nnoremap <silent> <leader>l :Lines<cr>
+nnoremap <silent> <leader>b :Buffers<cr>
+nnoremap <silent> <leader>/ :BLines<cr>
+
+"----------------------------------------------
 " ALE
 "----------------------------------------------
 
@@ -102,6 +112,7 @@ let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'go': ['goimports'],
 \   'terraform': ['terraform'],
+\   'python': ['yapf'],
 \}
 let g:ale_fix_on_save = 1
 let g:ale_completion_enabled = 0 " turn off native completion in favor of deoplete
@@ -148,9 +159,22 @@ let g:deoplete#sources#go#gocode_binary = $HOME.'/go/bin/gocode'
 
 " Ale configuration
 let g:ale_go_golangci_lint_executable = $HOME.'/go/bin/golangci-lint'
-let g:ale_go_golangci_lint_options = '--disable-all -E typecheck -E govet -E deadcode -E errcheck -E ineffassign -E structcheck -E unused -E varcheck -E goconst -E gosec'
 let g:ale_go_golangci_lint_package = 1
 let g:ale_go_goimports_executable = $HOME.'/go/bin/goimports'
+
+" Custom function to toggle tags for golangci
+let s:golang_build_tags_set = 0
+let s:base_golangci_args = '--disable-all -E typecheck -E govet -E deadcode -E errcheck -E ineffassign -E structcheck -E unused -E varcheck -E goconst -E gosec'
+function! ToggleGolangCIBuildTags()
+    if s:golang_build_tags_set
+        let g:ale_go_golangci_lint_options = s:base_golangci_args.' --build-tags all'
+        let s:golang_build_tags_set = 0
+    else
+        let g:ale_go_golangci_lint_options = s:base_golangci_args
+        let s:golang_build_tags_set = 1
+    endif
+endfunction
+call ToggleGolangCIBuildTags()
 
 " Tagbar configuration for Golang
 let g:tagbar_type_go = {
