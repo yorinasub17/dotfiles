@@ -3,15 +3,15 @@ if &compatible
 endif
 
 " Required:
-set runtimepath+=/Users/yoriy/.cache/dein/repos/github.com/Shougo/dein.vim
+execute 'set runtimepath+=' . $HOME . '/.cache/dein/repos/github.com/Shougo/dein.vim'
 
 " Required:
-if dein#load_state('/Users/yoriy/.cache/dein')
-  call dein#begin('/Users/yoriy/.cache/dein')
+if dein#load_state( $HOME . '/.cache/dein' )
+  call dein#begin( $HOME . '/.cache/dein' )
 
   " Let dein manage dein
   " Required:
-  call dein#add('/Users/yoriy/.cache/dein/repos/github.com/Shougo/dein.vim')
+  call dein#add( $HOME . '/.cache/dein/repos/github.com/Shougo/dein.vim' )
 
   " Global plugins
   call dein#add('altercation/vim-colors-solarized')
