@@ -21,7 +21,6 @@ if dein#load_state( $HOME . '/.cache/dein' )
   call dein#add('godlygeek/tabular')
   call dein#add('scrooloose/nerdtree')
   call dein#add('dense-analysis/ale')
-  call dein#add('Shougo/deoplete.nvim')
   call dein#add('tpope/vim-fugitive')
   call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
   call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
@@ -59,6 +58,11 @@ colorscheme solarized
 set background=light
 set t_Co=16
 
+" Set swap dirs to somewhere not the current working dir
+set backupdir=~/.vim/backup//
+set directory=~/.vim/swap//
+set undodir=~/.vim/undo//
+
 " Navigation/Input rules
 set smartindent
 set tabstop=4
@@ -86,10 +90,6 @@ let g:airline#extensions#tagbar#enabled = 0
 " Add shortcut for toggling the tag bar
 nnoremap <F3> :TagbarToggle<cr>
 
-" Set python executables to that in pyenv for neovim
-let g:python_host_prog = $HOME.'/.pyenv/versions/neovim2/bin/python'
-let g:python3_host_prog = $HOME.'/.pyenv/versions/neovim3/bin/python'
-
 "----------------------------------------------
 " fzf
 "----------------------------------------------
@@ -104,10 +104,6 @@ nnoremap <silent> <leader>/ :BLines<cr>
 " ALE
 "----------------------------------------------
 
-let g:ale_linters = {
-\   'go': ['golangci-lint'],
-\   'terraform': ['terraform-lsp'],
-\}
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'go': ['goimports'],
@@ -116,13 +112,6 @@ let g:ale_fixers = {
 \}
 let g:ale_fix_on_save = 1
 let g:ale_completion_enabled = 0 " turn off native completion in favor of deoplete
-
-"----------------------------------------------
-" deoplete
-"----------------------------------------------
-
-let g:deoplete#enable_at_startup = 1
-call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
 
 "----------------------------------------------
 " NERDTree
@@ -154,13 +143,8 @@ let NERDTreeShowHidden = 1
 let g:go_fmt_autosave = 0
 let g:go_auto_type_info = 1
 
-" deoplete configuration
-let g:deoplete#sources#go#gocode_binary = $HOME.'/go/bin/gocode'
-
 " Ale configuration
-let g:ale_go_golangci_lint_executable = $HOME.'/go/bin/golangci-lint'
 let g:ale_go_golangci_lint_package = 1
-let g:ale_go_goimports_executable = $HOME.'/go/bin/goimports'
 
 " Custom function to toggle tags for golangci
 let s:golang_build_tags_set = 0
@@ -204,22 +188,3 @@ let g:tagbar_type_go = {
     \ 'ctagsbin'  : $HOME.'/go/bin/gotags',
     \ 'ctagsargs' : '-sort -silent'
 \ }
-
-
-"----------------------------------------------
-" Terraform
-"----------------------------------------------
-
-function! GetTFProjectRoot(buffer)
-  let l:tf_dir = ale#path#FindNearestDirectory(a:buffer, '.terraform')
-  return !empty(l:tf_dir) ? fnamemodify(l:tf_dir, ':h') : ''
-endfunction
-
-call ale#linter#Define('terraform', {
-\   'name': 'terraform-lsp',
-\   'lsp': 'stdio',
-\   'executable': 'terraform-lsp',
-\   'command': '%e',
-\   'project_root': function('GetTFProjectRoot'),
-\   'language': 'terraform',
-\})

@@ -15,8 +15,8 @@ get_space () {
 
 
 yori_precmd() {
-    _1LEFT="%F{blue}[%n@%m]%f %F{yellow}%~%f %F{cyan}$(git_prompt_info)%f"
-    _1RIGHT="%F{magenta}[hstn:%B$(hstn_prompt_info)%b][tf:%B$(tfenv_prompt_info)%b][py:%B$(pyenv_prompt_info)%b][njs:%B$(nvm_prompt_info)%b][rb:%B$(rbenv_prompt_info_works)%b]%f"
+    _1LEFT="%F{blue}[%n]%f %F{yellow}%~%f %F{cyan}$(git_prompt_info)%f"
+    _1RIGHT="%F{magenta}[go:%B$(version_info golang)%b][py:%B$(version_info python)%b]%f"
     _1SPACES=`get_space $_1LEFT $_1RIGHT`
     print
     print -rP "$_1LEFT$_1SPACES$_1RIGHT"
