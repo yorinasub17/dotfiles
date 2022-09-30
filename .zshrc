@@ -69,8 +69,7 @@ ZSH_TMUX_AUTOSTART='true'
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
-  nvm
-  pyenv
+  asdf
   tmux
 )
 
@@ -114,14 +113,6 @@ source $ZSH/oh-my-zsh.sh
 #  fi
 #fi
 
-eval "$(rbenv init -)"
-
 source <(kubectl completion zsh)
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f "$HOME/packages/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/packages/google-cloud-sdk/path.zsh.inc"; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f "$HOME/packages/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/packages/google-cloud-sdk/completion.zsh.inc"; fi
