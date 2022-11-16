@@ -14,17 +14,23 @@ if dein#load_state( $HOME . '/.cache/dein' )
   call dein#add( $HOME . '/.cache/dein/repos/github.com/Shougo/dein.vim' )
 
   " Global plugins
-  "call dein#add('altercation/vim-colors-solarized')
   call dein#add('overcache/NeoSolarized')
   call dein#add('vim-airline/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
   call dein#add('majutsushi/tagbar')
   call dein#add('godlygeek/tabular')
-  call dein#add('scrooloose/nerdtree')
+  call dein#add('nvim-lua/plenary.nvim')
+  call dein#add('kyazdani42/nvim-web-devicons')
+  call dein#add('MunifTanjim/nui.nvim')
+  call dein#add('nvim-neo-tree/neo-tree.nvim', {
+    \ 'rev': 'v2.x',
+    \ 'depends': ['nvim-lua/plenary.nvim', 'kyazdani42/nvim-web-devicons', 'MunifTanjim/nui.nvim'],
+    \ })
   call dein#add('dense-analysis/ale')
   call dein#add('tpope/vim-fugitive')
   call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
   call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
+  call dein#add('wesQ3/vim-windowswap')
 
   " Language based plugins
   " Go
@@ -74,11 +80,14 @@ match ExtraWhitespace /\s\+$/
 autocmd Filetype yaml setlocal tabstop=2 shiftwidth=2
 autocmd Filetype yml setlocal tabstop=2 shiftwidth=2
 autocmd Filetype sh setlocal tabstop=2 shiftwidth=2
+autocmd Filetype proto setlocal tabstop=2 shiftwidth=2
 autocmd Filetype typescript setlocal tabstop=2 shiftwidth=2
 autocmd Filetype pony setlocal tabstop=2 shiftwidth=2
 autocmd Filetype tf setlocal tabstop=2 shiftwidth=2
 autocmd Filetype hcl setlocal tabstop=2 shiftwidth=2
 autocmd Filetype tfvars setlocal tabstop=2 shiftwidth=2
+autocmd Filetype gohtmltmpl setlocal tabstop=2 shiftwidth=2
+autocmd Filetype css setlocal tabstop=2 shiftwidth=2
 
 " Airline
 let g:airline_powerline_fonts = 1
@@ -109,32 +118,34 @@ let g:ale_fixers = {
 \   'go': ['goimports'],
 \   'terraform': ['terraform'],
 \   'python': ['yapf'],
-\}
+\   'typescript': ['prettier'],
+\   'json': ['prettier'],
+\   'yaml': ['prettier'],
+\ }
 let g:ale_fix_on_save = 1
 let g:ale_completion_enabled = 0 " turn off native completion in favor of deoplete
 
 "----------------------------------------------
-" NERDTree
+" NeoTree
 "----------------------------------------------
 
+let g:neo_tree_remove_legacy_commands = 1
+let g:neo_tree_close_if_last_window = 1
+
 " Start automatically
-autocmd vimenter * NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+autocmd vimenter * Neotree
 autocmd vimenter * wincmd w
 
-" Files to ignore
-let NERDTreeIgnore = [
-    \ '\~$',
-    \ '\.pyc$',
-    \ '^\.DS_Store$',
-    \ '^node_modules$',
-    \ '^.ropeproject$',
-    \ '^__pycache__$'
-\]
-
 " Show hidden files by default.
-let NERDTreeShowHidden = 1
-
+lua require("neo-tree").setup({
+\   filesystem = {
+\       filtered_items = {
+\           visible = true,
+\           hide_dotfiles = false,
+\           hide_gitignored = true,
+\       },
+\   },
+\ })
 
 "----------------------------------------------
 " Golang
