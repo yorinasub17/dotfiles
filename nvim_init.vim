@@ -31,12 +31,22 @@ if dein#load_state( $HOME . '/.cache/dein' )
   call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
   call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
   call dein#add('wesQ3/vim-windowswap')
+  call dein#add('neovim/nvim-lspconfig')
+  call dein#add('wsdjeg/dein-ui.vim')
+  call dein#add('dhruvasagar/vim-table-mode')
 
   " Language based plugins
   " Go
   call dein#add('fatih/vim-go')
   " Terraform
   call dein#add('hashivim/vim-terraform')
+  " Jsonnet
+  call dein#add('google/vim-jsonnet')
+  " Bazel
+  call dein#add('google/vim-maktaba')
+  call dein#add('bazelbuild/vim-bazel')
+  " Python
+  call dein#add('petobens/poet-v')
   " markdown
   call dein#add('shime/vim-livedown')
   call dein#add('lvht/tagbar-markdown')
@@ -68,8 +78,8 @@ set termguicolors
 
 " Navigation/Input rules
 set smartindent
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set expandtab
 set nofoldenable
 set bs=2
@@ -77,17 +87,12 @@ set cursorcolumn
 set tw=120
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
-autocmd Filetype yaml setlocal tabstop=2 shiftwidth=2
-autocmd Filetype yml setlocal tabstop=2 shiftwidth=2
-autocmd Filetype sh setlocal tabstop=2 shiftwidth=2
-autocmd Filetype proto setlocal tabstop=2 shiftwidth=2
-autocmd Filetype typescript setlocal tabstop=2 shiftwidth=2
-autocmd Filetype pony setlocal tabstop=2 shiftwidth=2
-autocmd Filetype tf setlocal tabstop=2 shiftwidth=2
-autocmd Filetype hcl setlocal tabstop=2 shiftwidth=2
-autocmd Filetype tfvars setlocal tabstop=2 shiftwidth=2
-autocmd Filetype gohtmltmpl setlocal tabstop=2 shiftwidth=2
-autocmd Filetype css setlocal tabstop=2 shiftwidth=2
+autocmd Filetype python setlocal tabstop=4 shiftwidth=4
+autocmd Filetype bzl setlocal tabstop=4 shiftwidth=4
+autocmd BufNewFile,BufRead *.jlark set ft=python
+autocmd BufNewFile,BufRead *.libjlark set ft=python
+autocmd BufNewFile,BufRead *.jhcl set ft=hcl
+autocmd BufNewFile,BufRead *.libjhcl set ft=hcl
 
 " Airline
 let g:airline_powerline_fonts = 1
@@ -98,6 +103,16 @@ nnoremap <F3> :TagbarToggle<cr>
 
 " Fix gx
 nnoremap <silent> gx :execute 'silent! !open ' . shellescape(expand('<cWORD>'), 1)<cr>
+
+"----------------------------------------------
+" Git project specific configuration
+" This will attempt to load .git/vimrc if it exists.
+"----------------------------------------------
+let git_path = system("git rev-parse --git-dir 2>/dev/null")
+let git_vimrc = substitute(git_path, '\n', '', '') . "/vimrc"
+if !empty(glob(git_vimrc))
+    exec ":source " . git_vimrc
+endif
 
 "----------------------------------------------
 " fzf
@@ -117,10 +132,11 @@ let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'go': ['goimports'],
 \   'terraform': ['terraform'],
-\   'python': ['yapf'],
+\   'python': ['black'],
 \   'typescript': ['prettier'],
 \   'json': ['prettier'],
 \   'yaml': ['prettier'],
+\   'jsonnet': ['jsonnetfmt'],
 \ }
 let g:ale_fix_on_save = 1
 let g:ale_completion_enabled = 0 " turn off native completion in favor of deoplete
@@ -199,3 +215,63 @@ let g:tagbar_type_go = {
     \ 'ctagsbin'  : $HOME.'/go/bin/gotags',
     \ 'ctagsargs' : '-sort -silent'
 \ }
+
+"----------------------------------------------
+" Python
+"----------------------------------------------
+
+let g:poetv_executables = ['poetry']
+let g:poetv_auto_activate = 1
+
+"----------------------------------------------
+" LSP
+"----------------------------------------------
+
+lua <<EOF
+  local on_attach = function(client, bufnr)
+    -- Enable completion triggered by <c-x><c-o>
+    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+    -- Mappings.
+    -- See `:help vim.lsp.*` for documentation on any of the below functions
+    local bufopts = { noremap=true, silent=true, buffer=bufnr }
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+    vim.keymap.set('n', '<space>wl', function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, bufopts)
+    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+    vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+    vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+  end
+
+  require'lspconfig'.jsonnet_ls.setup{
+    on_attach = on_attach,
+  	formatting = {
+  		-- default values
+  		Indent              = 2,
+  		MaxBlankLines       = 2,
+  		StringStyle         = 'single',
+  		CommentStyle        = 'slash',
+  		PrettyFieldNames    = true,
+  		PadArrays           = false,
+  		PadObjects          = true,
+  		SortImports         = true,
+  		UseImplicitPlus     = true,
+  		StripEverything     = false,
+  		StripComments       = false,
+  		StripAllButComments = false,
+  	},
+  }
+
+  require'lspconfig'.pyright.setup{
+    on_attach = on_attach,
+  }
+EOF
