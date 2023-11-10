@@ -226,6 +226,8 @@ let g:svelte_preprocessors = ['typescript']
 "----------------------------------------------
 
 lua <<EOF
+  local nvim_lsp = require("lspconfig")
+
   local on_attach = function(client, bufnr)
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -250,7 +252,10 @@ lua <<EOF
     vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
   end
 
-  require'lspconfig'.jsonnet_ls.setup{
+  -- Set on_attach to a global variable that can be referenced in the extensions
+  vim.g.yori_lsp_on_attach = on_attach
+
+  nvim_lsp.jsonnet_ls.setup{
     on_attach = on_attach,
   	formatting = {
   		-- default values
@@ -269,11 +274,11 @@ lua <<EOF
   	},
   }
 
-  require'lspconfig'.rust_analyzer.setup{
+  nvim_lsp.rust_analyzer.setup{
     on_attach = on_attach,
   }
 
-  require'lspconfig'.pyright.setup{
+  nvim_lsp.pyright.setup{
     on_attach = on_attach,
   }
 
