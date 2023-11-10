@@ -1,0 +1,25 @@
+let g:ale_linters = {
+\   'typescript': ['eslint', 'tsserver', 'typecheck'],
+\   'svelte': ['svelteserver'],
+\}
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'svelte': ['prettier'],
+\   'typescript': ['prettier'],
+\   'json': ['prettier'],
+\   'yaml': ['prettier'],
+\ }
+
+lua <<EOF
+  local nvim_lsp = require("lspconfig")
+
+  nvim_lsp.svelte.setup{
+    on_attach = vim.g.yori_lsp_on_attach,
+    cmd = {"pnpm", "svelteserver", "--stdio"},
+  }
+
+  nvim_lsp.tsserver.setup{
+   on_attach = vim.g.yori_lsp_on_attach,
+   root_dir = nvim_lsp.util.root_pattern("package.json")
+  }
+EOF

@@ -1,0 +1,24 @@
+let g:ale_linters = {
+\   'typescript': ['deno'],
+\}
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'typescript': ['deno'],
+\   'json': ['prettier'],
+\   'yaml': ['prettier'],
+\ }
+
+lua <<EOF
+  local nvim_lsp = require("lspconfig")
+
+  nvim_lsp.denols.setup{
+    on_attach = vim.g.yori_lsp_on_attach,
+    root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc"),
+    settings = {
+      deno = {
+        enable = true,
+        unstable = true
+      }
+    }
+  }
+EOF
