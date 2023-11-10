@@ -94,10 +94,6 @@ match ExtraWhitespace /\s\+$/
 autocmd Filetype python setlocal tabstop=4 shiftwidth=4
 autocmd Filetype bzl setlocal tabstop=4 shiftwidth=4
 autocmd Filetype rs setlocal tabstop=4 shiftwidth=4
-autocmd BufNewFile,BufRead *.jlark set ft=python
-autocmd BufNewFile,BufRead *.libjlark set ft=python
-autocmd BufNewFile,BufRead *.jhcl set ft=hcl
-autocmd BufNewFile,BufRead *.libjhcl set ft=hcl
 
 " Airline
 let g:airline_powerline_fonts = 1
@@ -238,8 +234,6 @@ let g:svelte_preprocessors = ['typescript']
 "----------------------------------------------
 " LSP
 "----------------------------------------------
-
-nnoremap <silent> <leader>t :lua vim.lsp.buf.hover()<cr>
 
 lua <<EOF
   local on_attach = function(client, bufnr)
