@@ -40,6 +40,8 @@ if dein#load_state( $HOME . '/.cache/dein' )
   call dein#add('fatih/vim-go')
   " Terraform
   call dein#add('hashivim/vim-terraform')
+  " Json5
+  call dein#add('GutenYe/json5.vim')
   " Jsonnet
   call dein#add('google/vim-jsonnet')
   " Bazel
@@ -220,6 +222,12 @@ let g:poetv_auto_activate = 1
 "----------------------------------------------
 
 let g:svelte_preprocessors = ['typescript']
+
+"----------------------------------------------
+" Deno
+"----------------------------------------------
+
+let g:ale_deno_unstable = 1
 
 "----------------------------------------------
 " LSP
