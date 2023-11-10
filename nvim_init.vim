@@ -106,16 +106,6 @@ nnoremap <F3> :TagbarToggle<cr>
 nnoremap <silent> gx :execute 'silent! !open ' . shellescape(expand('<cWORD>'), 1)<cr>
 
 "----------------------------------------------
-" Git project specific configuration
-" This will attempt to load .git/vimrc if it exists.
-"----------------------------------------------
-let git_path = system("git rev-parse --git-dir 2>/dev/null")
-let git_vimrc = substitute(git_path, '\n', '', '') . "/vimrc"
-if !empty(glob(git_vimrc))
-    exec ":source " . git_vimrc
-endif
-
-"----------------------------------------------
 " fzf
 "----------------------------------------------
 
@@ -288,3 +278,18 @@ lua <<EOF
   }
 
 EOF
+
+"----------------------------------------------
+" Git project specific configuration
+" This will attempt to load ./vimrc, and then .git/vimrc if it exists.
+"----------------------------------------------
+
+let rel_vimrc = getcwd() . "/vimrc"
+let git_path_rel = system("git rev-parse --git-dir 2>/dev/null")
+let git_path = system("realpath " . substitute(git_path_rel, '\n', '', ''))
+let git_vimrc = substitute(git_path, '\n', '', '') . "/vimrc"
+if (!empty(glob(rel_vimrc)))
+  exec ":source " . rel_vimrc
+elseif !empty(glob(git_vimrc))
+  exec ":source " . git_vimrc
+endif
