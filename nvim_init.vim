@@ -45,6 +45,10 @@ if dein#load_state( $HOME . '/.cache/dein' )
   " Bazel
   call dein#add('google/vim-maktaba')
   call dein#add('bazelbuild/vim-bazel')
+  " Frontend
+  call dein#add('othree/html5.vim')
+  call dein#add('pangloss/vim-javascript')
+  call dein#add('evanleck/vim-svelte')
   " Python
   call dein#add('petobens/poet-v')
   " markdown
@@ -89,6 +93,7 @@ highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
 autocmd Filetype python setlocal tabstop=4 shiftwidth=4
 autocmd Filetype bzl setlocal tabstop=4 shiftwidth=4
+autocmd Filetype rs setlocal tabstop=4 shiftwidth=4
 autocmd BufNewFile,BufRead *.jlark set ft=python
 autocmd BufNewFile,BufRead *.libjlark set ft=python
 autocmd BufNewFile,BufRead *.jhcl set ft=hcl
@@ -131,6 +136,7 @@ nnoremap <silent> <leader>/ :BLines<cr>
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'go': ['goimports'],
+\   'rust': ['rustfmt'],
 \   'terraform': ['terraform'],
 \   'python': ['black'],
 \   'typescript': ['prettier'],
@@ -224,8 +230,16 @@ let g:poetv_executables = ['poetry']
 let g:poetv_auto_activate = 1
 
 "----------------------------------------------
+" Svelte
+"----------------------------------------------
+
+let g:svelte_preprocessors = ['typescript']
+
+"----------------------------------------------
 " LSP
 "----------------------------------------------
+
+nnoremap <silent> <leader>t :lua vim.lsp.buf.hover()<cr>
 
 lua <<EOF
   local on_attach = function(client, bufnr)
@@ -271,7 +285,12 @@ lua <<EOF
   	},
   }
 
+  require'lspconfig'.rust_analyzer.setup{
+    on_attach = on_attach,
+  }
+
   require'lspconfig'.pyright.setup{
     on_attach = on_attach,
   }
+
 EOF
