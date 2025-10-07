@@ -1,0 +1,79 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "upgrade": {
+    "source": "cdn",
+    "interval": "168h",
+    "auto": false,
+    "notice": false
+  },
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "template": "<#0377C8># </><#0377C8>{{ .UserName }}</>@<#4A9207>{{ .HostName }}</> ",
+          "foreground": "#FFFFFF",
+          "type": "session",
+          "style": "plain"
+        },
+        {
+          "properties": {
+            "folder_icon": "\uf115",
+            "folder_separator_icon": " \ue0b1 ",
+            "style": "folder"
+          },
+          "template": " {{ .Path }} ",
+          "foreground": "#0973C0",
+          "type": "path",
+          "style": "plain"
+        },
+        {
+          "template": "<#ffffff>on git:</>{{ .HEAD }} ",
+          "foreground": "#B8B80A",
+          "type": "git",
+          "style": "plain"
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "right",
+      "segments": [
+        {
+          "template": "[{{ .CurrentDate | date .Format }}]",
+          "foreground": "#ffffff",
+          "type": "time",
+          "style": "plain"
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "template": "\uf0e7 ",
+          "foreground": "#CECE04",
+          "type": "root",
+          "style": "plain"
+        },
+        {
+          "template": " {{ reason .Code }} ",
+          "foreground": "#CB4B16",
+          "type": "status",
+          "style": "plain"
+        },
+        {
+          "template": "➜ ",
+          "foreground": "#CC4B16",
+          "type": "text",
+          "style": "plain"
+        }
+      ],
+      "newline": true
+    }
+  ],
+  "version": 3,
+  "final_space": true
+}
