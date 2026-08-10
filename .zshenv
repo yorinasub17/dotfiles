@@ -22,10 +22,28 @@ function example_load_secrets() {
   export SOME_SPECIAL_SECRET="$(echo "$item_id" | jq -r '.fields[] | select(.name == "Special Secret") | .value')"
 }
 
+# NOTE: Must be using gsed
 function rgsed() {
   local -r txtfind="$1"
   local -r replacewith="$2"
   local -r delim="${3:-|}"
 
-  rg "$txtfind" --files-with-matches | xargs sed -i "s${delim}${txtfind}${delim}${replacewith}${delim}g"
+  rg "$txtfind" --files-with-matches | xargs sed -e "s${delim}${txtfind}${delim}${replacewith}${delim}g" -I ''
+}
+
+function gitdefault() {
+  local default_branch
+  default_branch="$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')"
+  # fallback if origin/HEAD is not set
+  if [[ -z "$default_branch" ]]; then
+    if git rev-parse --verify refs/remotes/origin/main >/dev/null 2>&1; then
+      default_branch="main"
+    elif git rev-parse --verify refs/remotes/origin/master >/dev/null 2>&1; then
+      default_branch="master"
+    else
+      echo "gitdefault: cannot determine default branch" >&2
+      return 1
+    fi
+  fi
+  git switch "$default_branch"
 }
