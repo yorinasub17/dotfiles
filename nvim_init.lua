@@ -161,12 +161,15 @@ local on_attach = function(_, bufnr)
   vim.keymap.set("n", "<space>f", function()
     vim.lsp.buf.format({ async = true })
   end, bufopts)
+
+  vim.keymap.set("n", "<Leader>e", function()
+    vim.diagnostic.open_float(nil, { scope = "cursor" })
+  end)
 end
 
 vim.g.yori_lsp_on_attach = on_attach
-if vim.lsp and vim.lsp.config and vim.lsp.enable then
-  -- vim.lsp.config("rust_analyzer", { on_attach = on_attach })
-  -- vim.lsp.enable("rust_analyzer")
+local ok_lspconfig, lspconfig = pcall(require, "lspconfig")
+if ok_lspconfig then
 end
 
 -- ----------------------------------------------
