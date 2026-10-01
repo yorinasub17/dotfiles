@@ -15,8 +15,8 @@ vim.filetype.add({
 vim.treesitter.language.register("yaml", "springyaml")
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "springyaml",
-  callback = function()
-    vim.bo.commentstring = "# %s"
+  callback = function(args)
+    vim.treesitter.start(args.buf, "yaml")
   end,
 })
 
@@ -47,7 +47,9 @@ require("intellij-lsp").setup({
 })
 vim.lsp.config("intellij", {
   on_attach = on_attach,
-
+  jvm_args = {
+    '-Didea.max.intellisense.filesize=20000',
+  },
   filetypes = {
     "java",
     "kotlin",

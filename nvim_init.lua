@@ -19,6 +19,11 @@ end
 local ok_lazy, lazy = pcall(require, "lazy")
 if ok_lazy then
   lazy.setup({
+    {
+      "nvim-treesitter/nvim-treesitter",
+      lazy = false,
+      build = ':TSUpdate'
+    },
     "overcache/NeoSolarized",
     "vim-airline/vim-airline",
     "vim-airline/vim-airline-themes",
